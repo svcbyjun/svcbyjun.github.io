@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제이유엔 | Data Engineering</title>
+<link rel="icon" href="./assets/logo_with_text.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101E37;
+    --ink:#33415C;
+    --ink-soft:#6B7A94;
+    --blue:#3E6FB0;
+    --blue-deep:#26497D;
+    --blue-bright:#5C8DD6;
+    --pale:#EEF3FB;
+    --mist:#DCE7F7;
+    --line:#CBD9EE;
+    --white:#FFFFFF;
+    --accent:#7C6FE0;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Pretendard', -apple-system, sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.06em;
+  }
+  a{color:inherit;}
+  img{display:block; max-width:100%;}
+  .wrap{
+    max-width:1140px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:640px){ .wrap{padding:0 22px;} }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand img{ height:43px; width:auto; }
+  nav{ display:flex; align-items:center; gap:36px; }
+  nav a{
+    text-decoration:none; color:var(--ink); font-size:15px; font-weight:500;
+    transition:color .2s;
+  }
+  nav a:hover{ color:var(--blue-deep); }
+  .nav-cta{
+    background:var(--navy); color:var(--white) !important;
+    padding:10px 20px; border-radius:999px; font-size:14px; font-weight:600;
+  }
+  .nav-links{ display:flex; gap:32px; }
+  @media (max-width:800px){
+    .nav-links{ display:none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 88px;
+    background:
+      radial-gradient(circle at 82% 8%, #F2F7FD 0%, var(--pale) 46%, var(--white) 100%);
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:48px;
+    align-items:center;
+  }
+  @media (max-width:900px){
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero{ padding:64px 0 56px; }
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; font-weight:600; color:var(--blue-deep);
+    background:var(--mist); border:1px solid var(--line);
+    padding:7px 14px; border-radius:999px; margin-bottom:22px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--blue-bright); }
+  h1{
+    font-size:44px; line-height:1.28; font-weight:800; letter-spacing:-0.02em;
+    color:var(--navy); margin:0 0 22px;
+  }
+  h1 em{
+    font-style:normal;
+    background:linear-gradient(100deg, var(--blue-deep), var(--blue-bright));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  @media (max-width:640px){ h1{ font-size:32px; } }
+  .lead{ font-size:17px; line-height:1.75; color:var(--ink-soft); max-width:480px; margin-bottom:34px; }
+  .cta-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 26px; border-radius:999px; font-size:15px; font-weight:600;
+    text-decoration:none; transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-primary{ background:var(--navy); color:var(--white); box-shadow:0 10px 24px -10px rgba(16,30,55,0.5); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 28px -10px rgba(16,30,55,0.6); }
+  .btn-ghost{ background:var(--white); color:var(--navy); border:1px solid var(--line); }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:var(--blue); }
+
+  /* ---------- Section shells ---------- */
+  section{ padding:96px 0; }
+  @media (max-width:640px){ section{ padding:64px 0; } }
+  .section-head{ max-width:600px; margin-bottom:52px; }
+  .section-tag{
+    font-size:12.5px; font-weight:700; color:var(--blue-deep);
+    text-transform:uppercase; margin-bottom:12px; display:block;
+  }
+  h2{ font-size:32px; font-weight:800; color:var(--navy); margin:0 0 14px; letter-spacing:-0.01em; }
+  .section-sub{ font-size:15.5px; color:var(--ink-soft); line-height:1.7; }
+
+  /* ---------- Services ---------- */
+  .services{ background:var(--pale); }
+  .svc-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  @media (max-width:900px){ .svc-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .svc-grid{ grid-template-columns:1fr; } }
+  .svc-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 24px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .svc-card:hover{ transform:translateY(-4px); box-shadow:0 20px 40px -24px rgba(16,30,55,0.3); }
+  .svc-tag{
+    display:inline-block; font-size:11px; font-weight:600;
+    color:var(--blue-deep); background:var(--mist);
+    padding:4px 10px; border-radius:6px; margin-bottom:16px;
+  }
+  .svc-card.ai .svc-tag{ color:#5C4FC4; background:#EDEAFA; }
+  .svc-card h3{ font-size:18px; font-weight:700; color:var(--navy); margin:0 0 10px; }
+  .svc-card p{ font-size:14px; line-height:1.7; color:var(--ink-soft); margin:0; }
+
+  /* ---------- Process ---------- */
+  .process-track{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:0;
+    position:relative;
+  }
+  @media (max-width:900px){
+    .process-track{ grid-template-columns:1fr; gap:28px; }
+  }
+  .step{ position:relative; padding-right:18px; }
+  .step::after{
+    content:"";
+    position:absolute; top:19px; right:-2px;
+    width:100%; height:1px;
+    background:repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 11px);
+    z-index: -1;
+  }
+  .step:last-child::after{ display:none; }
+  @media (max-width:900px){ .step::after{ display:none; } }
+  .step-num{
+    width:38px; height:38px; border-radius:11px;
+    background:var(--navy); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+    margin-bottom:18px;
+  }
+  .step h4{ font-size:15.5px; font-weight:700; color:var(--navy); margin:0 0 8px; }
+  .step p{ font-size:13.5px; color:var(--ink-soft); line-height:1.65; margin:0; }
+
+  /* ---------- About ---------- */
+  .about{ background:var(--navy); color:var(--white); }
+  .about .wrap{
+    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start;
+  }
+  @media (max-width:860px){ .about .wrap{ grid-template-columns:1fr; gap:40px; } }
+  .about .section-tag{ color:var(--blue-bright); }
+  .about h2{ color:var(--white); }
+  .about .section-sub{ color:#AAB8CF; }
+  .about-list{ list-style:none; margin:28px 0 0; padding:0; display:flex; flex-direction:column; gap:16px; }
+  .about-list li{
+    display:flex; gap:12px; font-size:14.5px; line-height:1.65; color:#D9E2F0;
+  }
+  .about-list li::before{
+    content:""; flex:none; width:6px; height:6px; margin-top:8px;
+    background:var(--blue-bright); border-radius:2px;
+  }
+  .stack-title{ font-size:12.5px; font-weight:700; color:#8FA6C8; text-transform:uppercase; margin:0 0 16px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:9px; }
+  .chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px; padding:7px 13px; border-radius:8px;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+    color:#E4EAF4;
+  }
+  .stat-row{ display:flex; gap:36px; margin-top:36px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.12); }
+  .stat b{ display:block; font-size:26px; font-weight:800; color:var(--white); }
+  .stat span{ font-size:12.5px; color:#93A4C2; }
+
+  /* ---------- Reviews ---------- */
+  .rev-head{ display:flex; align-items:center; gap:16px; margin-bottom:44px; flex-wrap:wrap; }
+  .rev-score{ font-size:34px; font-weight:800; color:var(--navy); }
+  .rev-stars{ color:#F0A93A; font-size:16px; letter-spacing:2px; }
+  .rev-count{ font-size:13.5px; color:var(--ink-soft); }
+  .rev-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:860px){ .rev-grid{ grid-template-columns:1fr; } }
+  .rev-card{
+    background:var(--pale); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px; display:flex; flex-direction:column; gap:14px;
+  }
+  .rev-card .stars{ color:#F0A93A; font-size:13px; letter-spacing:2px; }
+  .rev-card p{ font-size:14px; line-height:1.7; color:var(--ink); margin:0; }
+  .rev-card .who{ font-size:12.5px; color:var(--ink-soft); margin-top:auto; }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:linear-gradient(120deg, var(--blue-deep), var(--navy));
+    border-radius:28px;
+    padding:64px 48px;
+    text-align:center;
+    color:var(--white);
+    margin:0 32px;
+  }
+  @media (max-width:640px){ .cta{ padding:44px 26px; margin:0 22px; } }
+  .cta h2{ color:var(--white); }
+  .cta .section-sub{ color:#C4D0E6; margin:0 auto 30px; }
+
+  /* ---------- Footer ---------- */
+  footer{ padding:40px 0; }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  .foot-brand{ display:flex; align-items:center; gap:10px; }
+  .foot-brand img{ height:20px; }
+  footer .copy{ font-size:12.5px; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <img src="./assets/logo_with_text.png" alt="제이유엔 사명 포함 로고">
+    </div>
+    <nav>
+      <div class="nav-links">
+        <a href="#services">업무 범위</a>
+        <a href="#process">진행 절차</a>
+        <a href="#about">소개</a>
+        <a href="#reviews">후기</a>
+      </div>
+      <a class="nav-cta" href="#contact">문의하기</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>반복되는 업무,<br><em>자동화로 해결</em>하고<br>데이터를 가치있게</h1>
+      <p class="lead">수집·가공·적재부터 보고서 자동화, 시스템 연동까지.<br/>고객의 업무 흐름에 맞춰 데이터 파이프라인을 설계하고,<br/>반복 작업을 없애는 자동화 솔루션을 제공합니다.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://kmong.com/gig/671226" target="_blank" rel="noopener">서비스 견적 보기 →</a>
+        <a class="btn btn-ghost" href="#services">업무 범위 살펴보기</a>
+      </div>
+    </div>
+    <!-- hero diagram removed as requested -->
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Services</span>
+      <h2>업무 자동화와 데이터<br>엔지니어링을 한 번에</h2>
+      <p class="section-sub">반복적인 수집·가공·보고서 작업을 자동화하고, <br/>데이터를 체계적으로 관리할 수 있는 환경을 구축해 드립니다.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <span class="svc-tag mono">AUTOMATE</span>
+        <h3>업무 자동화</h3>
+        <p>보고서 생성, 파일 처리, 사내 시스템 연동 등 반복 업무를 스크립트로 자동화하여 시간과 비용을 절감합니다.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-tag mono">COLLECT</span>
+        <h3>데이터 및 파일 수집<br>(크롤링 · 스크래핑)</h3>
+        <p>정적/동적 페이지, 로그인 필요 사이트, 반복 수집까지 안정적으로 원본 데이터를 수집합니다.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-tag mono">STRUCTURE</span>
+        <h3>데이터 가공 &<br>DB 설계 · 구축</h3>
+        <p>수집한 데이터를 정제·표준화하고, 목적에 맞는 데이터베이스 스키마를 설계하여 저장합니다.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-tag mono">LOAD</span>
+        <h3>데이터 적재</h3>
+        <p>가공된 데이터를 운영 DB, 파일 서버, 클라우드 스토리지 등 원하는 저장소로 안전하게 적재합니다.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-tag mono">PIPELINE</span>
+        <h3>ETL 프로세스<br>자동화</h3>
+        <p>수집–가공–적재로 이어지는 파이프라인을 스케줄링·모니터링까지 포함해 자동 운영합니다.</p>
+      </div>
+      <div class="svc-card ai">
+        <span class="svc-tag mono">AI EXTRACT</span>
+        <h3>AI 기반 데이터<br>표준화 추출</h3>
+        <p>비정형 텍스트·문서에서 LLM을 활용해 필요한 항목만 표준화된 형태로 추출합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Process</span>
+      <h2>이렇게 진행됩니다</h2>
+      <p class="section-sub">요청부터 결과물 전달까지, 체계적인 단계로 함께합니다.</p>
+    </div>
+    <div class="process-track">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h4>요청 접수</h4>
+        <p>자동화 대상 업무나 수집이 필요한 데이터, 원하는 결과물을 편하신 방법으로 전달해 주세요.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h4>검토 & 샘플 제공</h4>
+        <p>진행 가능 여부와 예상 기간을 검토하고, 무료 샘플로 결과를 먼저 보여드립니다.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h4>견적 안내</h4>
+        <p>업무 범위와 복잡도에 맞춰 견적을 안내해 드립니다.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h4>계약 및 착수</h4>
+        <p>견적에 동의하시면 계약을 진행하고, 본격적인 작업에 들어갑니다.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <h4>작업 & 결과 전달</h4>
+        <p>수집 데이터, 실행 프로그램, 스크립트 등 최종 결과물을 전달합니다.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <h4>사후 지원</h4>
+        <p>누락이나 오류가 있으면 추가로 보완해 드립니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div>
+      <span class="section-tag">About</span>
+      <h2>실무에서 쌓은<br>데이터 엔지니어링 경험</h2>
+      <p class="section-sub">국내 대기업 및 평가기관에서 약 5년간 데이터 엔지니어로 근무하며<br/>다음의 실무 경험을 쌓았습니다.</p>
+      <ul class="about-list">
+        <li>데이터 수집 — 웹 크롤링, LLM 기반 표준화 추출</li>
+        <li>DB 설계 및 구축 — RDB, NoSQL</li>
+        <li>수집 · 추출 · 적재 프로세스 자동화 구축 및 운영</li>
+        <li>풀스택 개발 — React, Django, AWS, MariaDB</li>
+      </ul>
+      <div class="stat-row">
+        <div class="stat"><b>5.0</b><span>고객 만족도</span></div>
+        <div class="stat"><b>100%</b><span>거래 만족도</span></div>
+        <div class="stat"><b>1시간</b><span>평균 응답 시간</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="stack-title">Tech Stack</p>
+      <div class="chips">
+        <span class="chip">Python</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">SQL</span>
+        <span class="chip">React</span>
+        <span class="chip">Django</span>
+        <span class="chip">Flask</span>
+        <span class="chip">MySQL</span>
+        <span class="chip">PostgreSQL</span>
+        <span class="chip">MariaDB</span>
+        <span class="chip">MongoDB</span>
+        <span class="chip">NoSQL</span>
+        <span class="chip">AWS EC2</span>
+        <span class="chip">NCP</span>
+        <span class="chip">Nginx</span>
+      </div>
+      <p style="margin-top:32px; font-size:13.5px; line-height:1.8; color:#9FAECB;">
+        실무에서 축적한 노하우를 바탕으로 데이터를 정확하게 수집하고, 활용 목적에 맞게 가공하여 신뢰할 수 있는 결과로 전달해 드립니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="rev-head">
+      <div class="rev-score">5.0</div>
+      <div>
+        <div class="rev-stars">★★★★★</div>
+        <div class="rev-count">고객 리뷰 6건 기준</div>
+      </div>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>요청한 그대로 정확하게 결과물이 나왔고, 작업 속도도 빨라서 만족스러웠습니다.</p>
+        <div class="who">살* — 웹 크롤링 · 스크래핑 의뢰</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>친절하고 꼼꼼하게 진행해 주셔서 작업이 한결 수월했습니다. 다음에도 또 요청드릴 예정입니다.</p>
+        <div class="who">후리* — 웹 크롤링 · 스크래핑 의뢰</div>
+      </div>
+      <div class="rev-card">
+        <div class="stars">★★★★★</div>
+        <p>결과물에 만족했고, 앞으로 추가로 의뢰드릴 계획입니다. 고생 많으셨습니다.</p>
+        <div class="who">맑* — 웹 크롤링 · 스크래핑 의뢰</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta">
+      <span class="section-tag" style="color:#9AB4E4;">Contact</span>
+      <h2>필요한 업무, 지금 상담해 보세요</h2>
+      <p class="section-sub">자동화하고 싶은 업무나 수집이 필요한 데이터를 알려주시면, 무료 샘플부터 확인해 드립니다.</p>
+      <div class="cta-row" style="justify-content:center;">
+      <a class="btn btn-primary" style="background:var(--white); color:var(--navy);" href="https://kmong.com/gig/671226" target="_blank" rel="noopener">크몽 문의하기 →</a>
+      </div>
+      <p style="margin:24px 0 0;color:#C4D0E6;font-size:15px;">또는 이메일 문의 :
+      <a href="mailto:svcbyjun@naver.com" style="color:#fff;text-decoration:none;font-weight:600;">svcbyjun@naver.com</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">
+      <img src="./assets/logo.png" alt="제이유엔 로고">
+      <span class="copy">제이유엔 · 데이터 엔지니어링</span>
+    </div>
+    <div class="copy">© 2026 제이유엔. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
