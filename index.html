@@ -130,6 +130,36 @@
   .biz b{font-weight:500; color:var(--soft); margin-right:8px;}
   .copy{margin-top:8px; color:var(--soft);}
   @media (max-width:640px){ footer .wrap{align-items:flex-start; text-align:left;} .biz{justify-content:flex-start;} }
+
+  /* Board */
+  .board{background:#fff;}
+  .board .top{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:28px;}
+  .board .top h2{margin:0;}
+  .bt{width:100%; border-collapse:collapse; border-top:1px solid var(--ink);}
+  .bt th,.bt td{padding:16px 12px; border-bottom:1px solid var(--line); text-align:left; font-size:15px;}
+  .bt th{font-size:13.5px; font-weight:600; color:var(--soft);}
+  .bt .d{width:130px; color:var(--soft); white-space:nowrap;}
+  .bt .t{background:none; border:0; padding:0; font:inherit; font-weight:600; color:var(--ink); cursor:pointer; text-align:left;}
+  .bt .t:hover{color:var(--g2); text-decoration:underline;}
+  .bt .empty{text-align:center; color:var(--soft); padding:44px 0;}
+  .note{margin:14px 0 0; font-size:13px; color:var(--soft);}
+  dialog{border:0; padding:0; width:calc(100% - 32px); max-width:640px; max-height:92vh; border-radius:2px 2px 2px 24px; color:var(--body);}
+  dialog::backdrop{background:rgba(15,21,32,.55);}
+  .dl{padding:32px; position:relative;}
+  .dl h3{margin:0 0 4px; font-size:22px; font-weight:800; color:var(--ink); padding-right:36px;}
+  .dl .x{position:absolute; top:14px; right:16px; background:none; border:0; font-size:26px; line-height:1; cursor:pointer; color:var(--soft);}
+  .dl label{display:block; margin:18px 0 6px; font-size:14px; font-weight:700; color:var(--ink);}
+  .dl input[type=email],.dl input[type=password],.dl input[type=text],.dl textarea{width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:2px; font:inherit; font-size:15px; color:var(--ink);}
+  .dl textarea{min-height:260px; resize:vertical; line-height:1.6;}
+  .dl .chk{display:flex; gap:8px; align-items:flex-start; font-weight:400; font-size:13px; color:var(--soft);}
+  .dl .chk input{margin-top:4px;}
+  .dl .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .dl .err{margin:14px 0 0; min-height:20px; font-size:14px; color:#C0392B;}
+  .dl .acts{display:flex; gap:10px; margin-top:8px;}
+  .dl .acts .btn{cursor:pointer; font-family:inherit;}
+  .dl .acts .btn:disabled{opacity:.5; cursor:default;}
+  .dl .meta{margin:0 0 18px; font-size:13.5px; color:var(--soft);}
+  .dl pre{margin:0; padding:18px; background:var(--gray); font:inherit; font-size:15px; line-height:1.7; white-space:pre-wrap; word-break:break-word; max-height:50vh; overflow:auto;}
 </style>
 </head>
 <body>
@@ -287,6 +317,64 @@
     <p>자동화할 업무나 수집이 필요한 데이터를 알려주시면 무료 샘플부터 확인해 드립니다.</p>
   </div>
 </section>
+<section class="board" id="board">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h2>문의 게시판</h2>
+        <p class="sub" style="margin:0">남겨 주신 문의는 작성자와 운영자만 열람할 수 있습니다.</p>
+      </div>
+      <button type="button" class="btn btn-p" id="openWrite" style="cursor:pointer;font-family:inherit">문의 작성</button>
+    </div>
+    <table class="bt">
+      <thead><tr><th class="d">작성일</th><th>제목</th></tr></thead>
+      <tbody id="bbody"><tr><td colspan="2" class="empty">불러오는 중…</td></tr></tbody>
+    </table>
+    <p class="note">제목은 목록에 공개됩니다. 제목에 개인정보나 연락처를 적지 마세요. 본문은 작성 시 입력한 비밀번호로만 열람됩니다.</p>
+  </div>
+</section>
+
+<dialog id="wdlg">
+  <div class="dl">
+    <button type="button" class="x" data-close aria-label="닫기">×</button>
+    <h3>문의 작성</h3>
+    <div id="wform">
+      <div class="hp" aria-hidden="true"><label>웹사이트<input type="text" id="w-hp" tabindex="-1" autocomplete="off"></label></div>
+      <label for="w-email">이메일 (작성자)</label>
+      <input type="email" id="w-email" maxlength="254" autocomplete="email" placeholder="you@example.com" required>
+      <label for="w-pw">비밀번호 (숫자 4자리)</label>
+      <input type="password" id="w-pw" inputmode="numeric" pattern="\d{4}" maxlength="4" autocomplete="new-password" placeholder="••••" required>
+      <label for="w-title">제목</label>
+      <input type="text" id="w-title" maxlength="100" placeholder="예) 전자공시 자료 수집 자동화 문의" required>
+      <label for="w-body">본문</label>
+      <textarea id="w-body" maxlength="3000"></textarea>
+      <label class="chk"><input type="checkbox" id="w-consent"><span>[필수] 문의 답변을 위해 이메일을 수집하며, 문의 처리 후 1년간 보관 후 파기합니다. 접속 IP는 중복 작성 방지 목적으로 암호화되어 저장됩니다.</span></label>
+      <p class="err" id="w-err" role="alert"></p>
+      <div class="acts">
+        <button type="button" class="btn btn-p" id="w-submit">등록</button>
+        <button type="button" class="btn btn-g" data-close>취소</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="vdlg">
+  <div class="dl">
+    <button type="button" class="x" data-close aria-label="닫기">×</button>
+    <h3 id="v-title">문의 열람</h3>
+    <p class="meta" id="v-meta">작성 시 입력한 비밀번호 4자리를 입력해 주세요.</p>
+    <div id="v-auth">
+      <label for="v-pw">비밀번호</label>
+      <input type="password" id="v-pw" inputmode="numeric" pattern="\d{4}" maxlength="4" autocomplete="off" placeholder="••••">
+      <p class="err" id="v-err" role="alert"></p>
+      <div class="acts">
+        <button type="button" class="btn btn-p" id="v-submit">확인</button>
+        <button type="button" class="btn btn-g" data-close>취소</button>
+      </div>
+    </div>
+    <pre id="v-body" hidden></pre>
+  </div>
+</dialog>
 </main>
 
 <footer>
@@ -303,5 +391,104 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  // ▼ Supabase 배포 후 본인 프로젝트 주소로 교체
+  var API = "https://paurqjwbbcerwyibcxyd.supabase.co/functions/v1/inquiry";
+  var TEMPLATE = "[문의 유형]\n(데이터 수집 / 자동화 개발 / MVP 개발 / 기타)\n\n[현재 하고 계신 업무·상황]\n\n\n[원하는 결과물]\n\n\n[대상 사이트·문서·시스템]\n\n\n[희망 기한 / 예산 범위]\n\n";
+  var $ = function(id){ return document.getElementById(id); };
+  var wdlg = $("wdlg"), vdlg = $("vdlg"), curId = null;
+
+  function fmt(iso){
+    return new Date(iso).toLocaleDateString("ko-KR", {timeZone:"Asia/Seoul", year:"numeric", month:"2-digit", day:"2-digit"}).replace(/\.\s*/g,".").replace(/\.$/,"");
+  }
+  function api(opt){
+    return fetch(API, opt).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(d){
+        if(!r.ok) throw new Error(d.error || "요청에 실패했습니다.");
+        return d;
+      });
+    });
+  }
+  function load(){
+    var tb = $("bbody");
+    api({method:"GET"}).then(function(d){
+      tb.textContent = "";
+      if(!d.items.length){
+        tb.innerHTML = '<tr><td colspan="2" class="empty">등록된 문의가 없습니다.</td></tr>';
+        return;
+      }
+      d.items.forEach(function(it){
+        var tr = document.createElement("tr"), td1 = document.createElement("td"), td2 = document.createElement("td"), b = document.createElement("button");
+        td1.className = "d"; td1.textContent = fmt(it.created_at);
+        b.type = "button"; b.className = "t"; b.textContent = it.title;
+        b.addEventListener("click", function(){ openView(it); });
+        td2.appendChild(b); tr.appendChild(td1); tr.appendChild(td2); tb.appendChild(tr);
+      });
+    }).catch(function(){
+      tb.innerHTML = '<tr><td colspan="2" class="empty">목록을 불러오지 못했습니다.</td></tr>';
+    });
+  }
+
+  document.querySelectorAll("[data-close]").forEach(function(b){
+    b.addEventListener("click", function(){ b.closest("dialog").close(); });
+  });
+
+  // 작성
+  $("openWrite").addEventListener("click", function(){
+    if(!$("w-body").value.trim()) $("w-body").value = TEMPLATE;
+    $("w-err").textContent = "";
+    wdlg.showModal();
+  });
+  $("w-pw").addEventListener("input", function(){ this.value = this.value.replace(/\D/g,"").slice(0,4); });
+  $("w-submit").addEventListener("click", function(){
+    var btn = this, err = $("w-err"), email = $("w-email").value.trim(), pw = $("w-pw").value,
+        title = $("w-title").value.trim(), body = $("w-body").value.trim();
+    err.textContent = "";
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return err.textContent = "이메일 형식이 올바르지 않습니다.";
+    if(!/^\d{4}$/.test(pw)) return err.textContent = "비밀번호는 숫자 4자리여야 합니다.";
+    if(title.length < 2) return err.textContent = "제목을 2자 이상 입력해 주세요.";
+    if(body.length < 10 || body === TEMPLATE.trim()) return err.textContent = "본문을 작성해 주세요.";
+    if(!$("w-consent").checked) return err.textContent = "개인정보 수집·이용에 동의해 주세요.";
+    btn.disabled = true;
+    api({method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({
+      action:"create", email:email, password:pw, title:title, body:body, consent:true, website:$("w-hp").value
+    })}).then(function(){
+      ["w-email","w-pw","w-title","w-body"].forEach(function(i){ $(i).value = ""; });
+      $("w-consent").checked = false;
+      wdlg.close(); load();
+      alert("문의가 등록되었습니다. 열람 시 비밀번호가 필요하니 잊지 마세요.");
+    }).catch(function(e){ err.textContent = e.message; }).then(function(){ btn.disabled = false; });
+  });
+
+  // 열람
+  function openView(it){
+    curId = it.id;
+    $("v-title").textContent = it.title;
+    $("v-meta").textContent = fmt(it.created_at) + " · 작성 시 입력한 비밀번호 4자리를 입력해 주세요.";
+    $("v-pw").value = ""; $("v-err").textContent = "";
+    $("v-auth").hidden = false; $("v-body").hidden = true; $("v-body").textContent = "";
+    vdlg.showModal();
+  }
+  $("v-pw").addEventListener("input", function(){ this.value = this.value.replace(/\D/g,"").slice(0,4); });
+  $("v-pw").addEventListener("keydown", function(e){ if(e.key === "Enter") $("v-submit").click(); });
+  $("v-submit").addEventListener("click", function(){
+    var btn = this, err = $("v-err"), pw = $("v-pw").value;
+    err.textContent = "";
+    if(!/^\d{4}$/.test(pw)) return err.textContent = "숫자 4자리를 입력해 주세요.";
+    btn.disabled = true;
+    api({method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({action:"view", id:curId, password:pw})})
+      .then(function(d){
+        $("v-body").textContent = d.body;
+        $("v-body").hidden = false; $("v-auth").hidden = true;
+        $("v-meta").textContent = fmt(d.created_at);
+      }).catch(function(e){ err.textContent = e.message; })
+      .then(function(){ btn.disabled = false; });
+  });
+  vdlg.addEventListener("close", function(){ $("v-body").textContent = ""; $("v-pw").value = ""; });
+
+  load();
+})();
+</script>
 </body>
 </html>
