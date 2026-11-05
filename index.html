@@ -23,6 +23,7 @@
     "logo": "https://svcbyjun.github.io/assets/logo_with_text.png",
     "description": "데이터 수집, 업무 자동화, MVP 개발",
     "email": "svcbyjun@naver.com",
+    "sameAs": ["https://www.instagram.com/svcbyjun/", "http://pf.kakao.com/_dRuxeX"],
     "areaServed": "KR"
   }
 </script>
@@ -114,10 +115,39 @@
   .pf p{margin:0 0 10px; font-size:13.5px; color:var(--soft); flex:1;}
   .more{font-size:13.5px; font-weight:700; color:var(--g2);}
   .pf a:hover .more{text-decoration:underline;}
-  .pf .all{background:var(--gray); border-radius:2px 2px 2px 28px; padding:28px; justify-content:flex-end;}
-  .pf .all h3{margin-top:0; font-size:20px;}
   .pf .th { position: relative; }
-  .pf .th .badge {position: absolute;top: 12px;left: 12px;padding: 3px 9px;font-size: 11px;font-weight: 700;letter-spacing: .08em;color: #111; background: rgba(255, 255, 255, .9);border-radius: 4px;backdrop-filter: blur(4px);  }
+  .pf .th svg{width:100%; height:100%; display:block; transition:transform .3s ease;}
+  .pf a:hover .th svg{transform:scale(1.04);}
+  .pf .th .badge {position: absolute;top: 12px;right: 12px;padding: 3px 9px;font-size: 11px;font-weight: 700;letter-spacing: .08em;color: #111; background: rgba(255, 255, 255, .92);border-radius: 4px;backdrop-filter: blur(4px);  }
+
+  /* Card news viewer */
+  .cn{position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:16px;
+    background:rgba(15,21,32,.5); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+    opacity:0; visibility:hidden; transition:opacity .22s ease, visibility 0s linear .22s;}
+  .cn.on{opacity:1; visibility:visible; transition:opacity .22s ease;}
+  .cn-win{position:relative; display:flex; flex-direction:column; width:min(92vw, calc((100dvh - 150px) * .8)); max-width:560px; background:#fff; border-radius:2px 2px 2px 24px; overflow:hidden; box-shadow:0 24px 80px rgba(8,12,22,.45); transform:translateY(12px) scale(.985); transition:transform .25s ease;}
+  .cn.on .cn-win{transform:none;}
+  .cn-bar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 12px 12px 20px; border-bottom:1px solid var(--line);}
+  .cn-bar h3{margin:0; font-size:15px; font-weight:700; color:var(--ink); line-height:1.4; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .cn-x{flex:none; width:36px; height:36px; border:0; background:none; font-size:26px; line-height:1; color:var(--soft); cursor:pointer; border-radius:50%;}
+  .cn-x:hover{background:var(--gray); color:var(--ink);}
+  .cn-stage{position:relative; aspect-ratio:4/5; background:#E3E8F1; overflow:hidden; touch-action:pan-y;}
+  .cn-track{display:flex; height:100%; transition:transform .35s cubic-bezier(.22,.8,.3,1);}
+  .cn-track.drag{transition:none;}
+  .cn-slide{flex:none; width:100%; height:100%;}
+  .cn-slide img{width:100%; height:100%; object-fit:contain; user-select:none; -webkit-user-drag:none;}
+  .cn-nav{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border:0; border-radius:50%; background:rgba(255,255,255,.92); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 10px rgba(15,21,32,.22);}
+  .cn-nav:hover{background:#fff; color:var(--g2);}
+  .cn-nav[disabled]{opacity:0; pointer-events:none;}
+  .cn-prev{left:10px;} .cn-next{right:10px;}
+  .cn-foot{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 20px; font-size:13.5px;}
+  .cn-count{font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; min-width:44px;}
+  .cn-dots{display:flex; gap:6px;}
+  .cn-dots button{width:8px; height:8px; padding:0; border:0; border-radius:50%; background:var(--line); cursor:pointer; transition:background .2s, width .2s;}
+  .cn-dots button.on{background:var(--g2); width:22px; border-radius:4px;}
+  body.cn-lock{overflow:hidden;}
+  @media (max-width:520px){ .cn{padding:10px;} .cn-nav{width:38px; height:38px;} .cn-dots{display:none;} }
+  @media (prefers-reduced-motion:reduce){ .cn,.cn-win,.cn-track{transition:none;} }
 
   /* Process */
   .proc{background:var(--gray);}
@@ -150,6 +180,14 @@
   .addr{display:inline-block; font-size:clamp(22px,3.6vw,34px); font-weight:800; letter-spacing:-0.02em; color:var(--g2); text-decoration:none; border-bottom:3px solid var(--g1); margin-bottom:22px;}
   .addr:hover{color:var(--ink); border-color:var(--ink);}
   .contact p{margin:0; max-width:520px; color:var(--soft);}
+  .sns{display:flex; flex-wrap:wrap; gap:12px; margin:0 0 28px;}
+  .sns a{display:inline-flex; align-items:center; gap:12px; padding:13px 22px 13px 16px; background:#fff; border:1px solid var(--line); border-radius:2px 2px 2px 18px; text-decoration:none; font-size:15px; font-weight:700; color:var(--ink); transition:border-color .2s, transform .2s;}
+  .sns a:hover{border-color:var(--ink); transform:translateY(-2px);}
+  .sns .ic{flex:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .sns .ig .ic{background:linear-gradient(45deg,#F9A13B 0%,#E1306C 55%,#7B3FBF 100%); color:#fff;}
+  .sns .kk .ic{background:#FEE500; color:#2A1D1D;}
+  .sns small{display:block; font-size:12.5px; font-weight:500; color:var(--soft); line-height:1.3;}
+  @media (prefers-reduced-motion:reduce){ .sns a{transition:none;} }
 
   footer{border-top:1px solid var(--line); padding:28px 0;}
   footer .wrap{display:flex; flex-direction:column; align-items:flex-end; gap:6px; font-size:12.5px; color:var(--ink); text-align:right; line-height:1.6;}
@@ -257,30 +295,133 @@
 <section id="work">
   <div class="wrap">
     <h2>작업 사례</h2>
-    <p class="sub">진행한 작업의 개요를 네이버 블로그에 남겨 두었습니다.</p>
+    <p class="sub">카드를 누르면 작업 개요를 카드뉴스로 확인하실 수 있습니다.</p>
     <div class="pf">
-      <a href="https://blog.naver.com/svcbyjun/224375024192" target="_blank" rel="noopener">
-        <div class="th"><img src="./assets/portfolio_thumbnail_1.jpg" alt=""><span class="badge">DEMO</span></div>
-        <h3>전자공시 보고서 수집 업무 자동화</h3><p>반복적인 전자공시 확인·다운로드·정리 업무를 자동화한 데모입니다.</p><span class="more">상세 보기</span>
+      <a href="#work" role="button" data-cn="disclosure">
+        <div class="th"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" font-family="Pretendard,sans-serif">
+<rect width="320" height="180" fill="#14213D"/>
+<text x="24" y="52" fill="#fff" font-size="21" font-weight="800">전자공시</text>
+<text x="24" y="78" fill="#A3B8E0" font-size="15" font-weight="700">사업보고서 자동 수집</text>
+<g transform="translate(24,104)">
+ <rect width="58" height="54" rx="5" fill="#F3F6FB"/>
+ <rect x="8" y="9" width="30" height="5" rx="2" fill="#3F5CA0"/>
+ <rect x="8" y="21" width="42" height="4" rx="2" fill="#A3B8E0"/>
+ <rect x="8" y="30" width="38" height="4" rx="2" fill="#A3B8E0"/>
+ <rect x="8" y="39" width="42" height="4" rx="2" fill="#A3B8E0"/>
+ <rect x="30" y="-8" width="38" height="18" rx="4" fill="#B93C26"/>
+ <text x="49" y="5" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">PDF</text>
+</g>
+<path d="M96 131h34" stroke="#A3B8E0" stroke-width="3" stroke-linecap="round"/><path d="M124 124l8 7-8 7" fill="none" stroke="#A3B8E0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(152,86) scale(.9)">
+ <rect width="150" height="92" rx="7" fill="#F3F6FB"/>
+ <rect width="150" height="20" rx="7" fill="#3F5CA0"/><rect y="12" width="150" height="8" fill="#3F5CA0"/>
+ <g fill="#A3B8E0"><rect x="10" y="7" width="30" height="5" rx="2" fill="#fff"/><rect x="62" y="7" width="22" height="5" rx="2" fill="#fff"/><rect x="108" y="7" width="30" height="5" rx="2" fill="#fff"/></g>
+ <g fill="#D5DDEC"><rect x="10" y="30" width="38" height="5" rx="2"/><rect x="62" y="30" width="30" height="5" rx="2"/><rect x="108" y="30" width="30" height="5" rx="2"/>
+ <rect x="10" y="46" width="32" height="5" rx="2"/><rect x="62" y="46" width="36" height="5" rx="2"/><rect x="108" y="46" width="24" height="5" rx="2"/>
+ <rect x="10" y="62" width="40" height="5" rx="2"/><rect x="62" y="62" width="26" height="5" rx="2"/><rect x="108" y="62" width="32" height="5" rx="2"/></g>
+ <circle cx="136" cy="80" r="0" fill="#17714F"/>
+</g>
+<circle cx="294" cy="158" r="12" fill="#17714F"/><path d="M288 158l4.5 4.5 8.5-9.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><span class="badge">CARD NEWS</span></div>
+        <h3>전자공시 보고서 수집 업무 자동화</h3><p>반복적인 전자공시 확인·다운로드·정리 업무를 자동화한 데모입니다.</p><span class="more">카드뉴스 보기</span>
       </a>
-      <a href="https://blog.naver.com/svcbyjun/224376134069" target="_blank" rel="noopener">
-        <div class="th"><img src="./assets/portfolio_thumbnail_2.jpg" alt=""><span class="badge">DEMO</span></div>
-        <h3>문서 항목 표준 추출 업무 자동화</h3><p>서로 다른 비정형 문서에서 필요한 항목을 표준 형태로 추출한 데모입니다.</p><span class="more">상세 보기</span>
+      <a href="#work" role="button" data-cn="document">
+        <div class="th"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" font-family="Pretendard,sans-serif">
+<rect width="320" height="180" fill="#1E2635"/>
+<text x="24" y="52" fill="#fff" font-size="21" font-weight="800">문서 항목</text>
+<text x="24" y="78" fill="#9DB2E6" font-size="15" font-weight="700">같은 표로 표준 추출</text>
+<g>
+ <g transform="translate(26,96) rotate(-7)"><rect width="46" height="58" rx="4" fill="#F3F6FB"/><rect x="7" y="8" width="32" height="5" rx="2" fill="#6F89C6"/><rect x="7" y="19" width="24" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="28" width="32" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="37" width="20" height="4" rx="2" fill="#C5D0E6"/></g>
+ <g transform="translate(62,100)"><rect width="46" height="58" rx="4" fill="#fff"/><rect x="7" y="8" width="18" height="18" rx="2" fill="#9DB2E6"/><rect x="29" y="9" width="12" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="32" width="32" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="41" width="26" height="4" rx="2" fill="#C5D0E6"/></g>
+ <g transform="translate(106,98) rotate(6)"><rect width="46" height="58" rx="4" fill="#E1E8F6"/><rect x="7" y="8" width="32" height="4" rx="2" fill="#3F63AE"/><rect x="7" y="16" width="32" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="24" width="32" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="32" width="32" height="4" rx="2" fill="#C5D0E6"/><rect x="7" y="40" width="32" height="4" rx="2" fill="#C5D0E6"/></g>
+</g>
+<path d="M168 128h26" stroke="#9DB2E6" stroke-width="3" stroke-linecap="round"/><path d="M188 121l8 7-8 7" fill="none" stroke="#9DB2E6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(206,82)">
+ <rect width="92" height="82" rx="6" fill="#F3F6FB"/>
+ <rect width="92" height="16" rx="6" fill="#3F63AE"/><rect y="9" width="92" height="7" fill="#3F63AE"/>
+ <rect x="8" y="5" width="20" height="4" rx="2" fill="#fff"/><rect x="38" y="5" width="20" height="4" rx="2" fill="#fff"/><rect x="66" y="5" width="18" height="4" rx="2" fill="#fff"/>
+ <g fill="#C5D0E6"><rect x="8" y="26" width="22" height="4" rx="2"/><rect x="38" y="26" width="20" height="4" rx="2"/><rect x="66" y="26" width="18" height="4" rx="2"/>
+ <rect x="8" y="40" width="22" height="4" rx="2"/><rect x="38" y="40" width="20" height="4" rx="2"/><rect x="66" y="40" width="18" height="4" rx="2"/>
+ <rect x="8" y="54" width="22" height="4" rx="2"/><rect x="38" y="54" width="20" height="4" rx="2"/><rect x="66" y="54" width="18" height="4" rx="2"/>
+ <rect x="8" y="68" width="22" height="4" rx="2"/><rect x="38" y="68" width="20" height="4" rx="2"/><rect x="66" y="68" width="18" height="4" rx="2"/></g>
+</g>
+</svg><span class="badge">CARD NEWS</span></div>
+        <h3>문서 항목 표준 추출 업무 자동화</h3><p>서로 다른 비정형 문서에서 필요한 항목을 표준 형태로 추출한 데모입니다.</p><span class="more">카드뉴스 보기</span>
       </a>
-      <a href="https://blog.naver.com/svcbyjun/224382155540" target="_blank" rel="noopener">
-        <div class="th"><img src="./assets/portfolio_thumbnail_3.jpg" alt=""><span class="badge">DEMO</span></div>
-        <h3>영업 DB 구축 자동화</h3><p>영업 DB 구축부터 방문 영업용 지도 생성까지 프로그램으로 자동화한 데모입니다.</p><span class="more">상세 보기</span>
+      <a href="#work" role="button" data-cn="sales">
+        <div class="th"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" font-family="Pretendard,sans-serif">
+<rect width="320" height="180" fill="#14213D"/>
+<text x="24" y="52" fill="#fff" font-size="21" font-weight="800">영업 DB 구축</text>
+<text x="24" y="78" fill="#A3B8E0" font-size="15" font-weight="700">리스트부터 지도까지</text>
+<g transform="translate(24,100)">
+ <rect width="112" height="36" rx="18" fill="#F3F6FB"/>
+ <circle cx="20" cy="18" r="7" fill="none" stroke="#3F5CA0" stroke-width="3"/><path d="M25 23l6 6" stroke="#3F5CA0" stroke-width="3" stroke-linecap="round"/>
+ <rect x="40" y="14" width="56" height="8" rx="4" fill="#A3B8E0"/>
+ <g transform="translate(0,46)" fill="#fff" opacity=".9"><rect width="112" height="9" rx="4" fill="#27355A"/><rect y="14" width="86" height="9" rx="4" fill="#27355A"/></g>
+</g>
+<clipPath id="mapclip"><rect width="140" height="120" rx="8"/></clipPath>
+<g transform="translate(192,52) scale(.8)">
+ <rect width="140" height="120" rx="8" fill="#E1E8F6"/>
+ <g clip-path="url(#mapclip)">
+ <g stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"><path d="M-4 84C30 70 56 94 92 66S128 40 146 44"/><path d="M40 -4C46 30 34 58 58 90S62 120 66 126"/></g>
+ <g stroke="#C5D0E6" stroke-width="3" fill="none" stroke-linecap="round"><path d="M96 -4C100 26 88 40 108 74"/><path d="M-4 30C30 36 60 24 90 34"/></g>
+ </g>
+ <g transform="translate(34,30)"><path d="M0 22C-10 10-12 0 0-8 12 0 10 10 0 22z" fill="#3F5CA0" transform="translate(0,2) scale(1.3)"/><circle cy="2" r="4" fill="#fff"/></g>
+ <g transform="translate(94,64)"><path d="M0 28C-12 13-15 0 0-10 15 0 12 13 0 28z" fill="#B93C26"/><circle cy="2" r="5" fill="#fff"/></g>
+ <g transform="translate(108,24)"><path d="M0 20C-9 9-11 0 0-7 11 0 9 9 0 20z" fill="#3F5CA0"/><circle cy="1" r="3.5" fill="#fff"/></g>
+ <g transform="translate(50,88)"><path d="M0 20C-9 9-11 0 0-7 11 0 9 9 0 20z" fill="#3F5CA0"/><circle cy="1" r="3.5" fill="#fff"/></g>
+</g>
+</svg><span class="badge">CARD NEWS</span></div>
+        <h3>영업 DB 구축 자동화</h3><p>영업 DB 구축부터 방문 영업용 지도 생성까지 프로그램으로 자동화한 데모입니다.</p><span class="more">카드뉴스 보기</span>
       </a>
-      <a href="https://blog.naver.com/svcbyjun/224397372889" target="_blank" rel="noopener">
-        <div class="th"><img src="./assets/portfolio_thumbnail_4.jpg" alt=""><span class="badge">DEMO</span></div>
-        <h3>기업 투자 정보 수집 자동화</h3><p>기업 투자 정보를 수집하고 DB에 적재하는 시스템을 구현한 데모입니다.</p><span class="more">상세 보기</span>
+      <a href="#work" role="button" data-cn="invest">
+        <div class="th"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" font-family="Pretendard,sans-serif">
+<rect width="320" height="180" fill="#1E2635"/>
+<text x="24" y="52" fill="#fff" font-size="21" font-weight="800">투자 기사 수집</text>
+<text x="24" y="78" fill="#9DB2E6" font-size="15" font-weight="700">투자 정보만 뽑아 적재</text>
+<g transform="translate(24,98)">
+ <rect width="84" height="64" rx="5" fill="#F3F6FB"/>
+ <rect x="8" y="8" width="68" height="7" rx="3" fill="#1E2635"/>
+ <rect x="8" y="20" width="44" height="7" rx="3" fill="#1E2635"/>
+ <rect x="8" y="34" width="68" height="3.5" rx="1.75" fill="#C5D0E6"/><rect x="8" y="42" width="68" height="3.5" rx="1.75" fill="#C5D0E6"/><rect x="8" y="50" width="48" height="3.5" rx="1.75" fill="#C5D0E6"/>
+ <g transform="translate(10,12)"><rect x="46" y="38" width="34" height="18" rx="4" fill="#3F63AE"/></g>
+</g>
+<path d="M114 130h24" stroke="#9DB2E6" stroke-width="3" stroke-linecap="round"/><path d="M132 123l8 7-8 7" fill="none" stroke="#9DB2E6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<g transform="translate(166,86) scale(.88)">
+ <rect width="144" height="88" rx="7" fill="#F3F6FB"/>
+ <g>
+  <rect x="8" y="9" width="128" height="22" rx="5" fill="#fff"/><circle cx="21" cy="20" r="6" fill="#9DB2E6"/><rect x="33" y="14" width="40" height="5" rx="2" fill="#1E2635"/><rect x="33" y="23" width="26" height="4" rx="2" fill="#C5D0E6"/><rect x="92" y="13" width="38" height="14" rx="7" fill="#E1F3EA"/><text x="111" y="24" fill="#17714F" font-size="10" font-weight="800" text-anchor="middle">120억</text>
+  <rect x="8" y="35" width="128" height="22" rx="5" fill="#fff"/><circle cx="21" cy="46" r="6" fill="#6F89C6"/><rect x="33" y="40" width="34" height="5" rx="2" fill="#1E2635"/><rect x="33" y="49" width="30" height="4" rx="2" fill="#C5D0E6"/><rect x="92" y="39" width="38" height="14" rx="7" fill="#E1F3EA"/><text x="111" y="50" fill="#17714F" font-size="10" font-weight="800" text-anchor="middle">50억</text>
+  <rect x="8" y="61" width="128" height="22" rx="5" fill="#fff"/><circle cx="21" cy="72" r="6" fill="#3F63AE"/><rect x="33" y="66" width="44" height="5" rx="2" fill="#1E2635"/><rect x="33" y="75" width="22" height="4" rx="2" fill="#C5D0E6"/><rect x="92" y="65" width="38" height="14" rx="7" fill="#E1F3EA"/><text x="111" y="76" fill="#17714F" font-size="10" font-weight="800" text-anchor="middle">300억</text>
+ </g>
+</g>
+</svg><span class="badge">CARD NEWS</span></div>
+        <h3>기업 투자 정보 수집 자동화</h3><p>기업 투자 정보를 수집하고 DB에 적재하는 시스템을 구현한 데모입니다.</p><span class="more">카드뉴스 보기</span>
       </a>
-      <a href="https://blog.naver.com/svcbyjun/224419924020" target="_blank" rel="noopener">
-        <div class="th"><img src="./assets/portfolio_thumbnail_5.jpg" alt=""><span class="badge">DEMO</span></div>
-        <h3>로컬 브랜드 플랫폼 모니터링 업무 자동화</h3><p>병원의 플랫폼 노출 관리와 모니터링 업무를 시스템으로 구현한 데모입니다.</p><span class="more">상세 보기</span>
-      </a>
-      <a class="all" href="https://blog.naver.com/svcbyjun" target="_blank" rel="noopener">
-        <h3>그 밖의 사례</h3><p>블로그에서 전체 사례를 보실 수 있습니다.</p><span class="more">전체 보기</span>
+      <a href="#work" role="button" data-cn="hospital">
+        <div class="th"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" font-family="Pretendard,sans-serif">
+<rect width="320" height="180" fill="#14213D"/>
+<text x="24" y="52" fill="#fff" font-size="21" font-weight="800">병원 리뷰</text>
+<text x="24" y="78" fill="#A3B8E0" font-size="15" font-weight="700">한 화면에서 매일 확인</text>
+<g transform="translate(24,98)">
+ <rect width="116" height="62" rx="8" fill="#F3F6FB"/>
+ <text x="14" y="38" fill="#14213D" font-size="28" font-weight="900">4.7</text>
+ <g fill="#F2B233" transform="translate(14,46)">
+  <path id="st" d="M6 0l1.8 3.9 4.2.5-3.1 2.9.8 4.2L6 9.4 2.3 11.5l.8-4.2L0 4.4l4.2-.5z"/>
+  <use href="#st" x="14"/><use href="#st" x="28"/><use href="#st" x="42"/><use href="#st" x="56" opacity=".35"/>
+ </g>
+ <g transform="translate(76,16)"><circle cx="14" cy="14" r="13" fill="#E1F3EA"/><path d="M8 14l4 4 8-9" fill="none" stroke="#17714F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+</g>
+<g transform="translate(184,40) scale(.86)">
+ <rect width="144" height="110" rx="8" fill="#F3F6FB"/>
+ <g fill="#D5DDEC"><rect x="14" y="52" width="14" height="46" rx="3"/><rect x="38" y="40" width="14" height="58" rx="3"/><rect x="62" y="60" width="14" height="38" rx="3"/></g>
+ <g fill="#3F5CA0"><rect x="86" y="30" width="14" height="68" rx="3"/><rect x="110" y="22" width="14" height="76" rx="3"/></g>
+ <path d="M21 40L45 30 69 48 93 20 117 12" fill="none" stroke="#B93C26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="117" cy="12" r="4.5" fill="#B93C26"/>
+ <rect x="14" y="10" width="34" height="5" rx="2" fill="#A3B8E0"/>
+</g>
+</svg><span class="badge">CARD NEWS</span></div>
+        <h3>로컬 브랜드 플랫폼 모니터링 업무 자동화</h3><p>병원의 플랫폼 노출 관리와 모니터링 업무를 시스템으로 구현한 데모입니다.</p><span class="more">카드뉴스 보기</span>
       </a>
     </div>
   </div>
@@ -341,6 +482,16 @@
   <div class="wrap">
     <h2>필요한 자료가 있다면, 연락 주세요.</h2>
     <a class="addr" href="mailto:svcbyjun@naver.com">svcbyjun@naver.com</a>
+    <div class="sns">
+      <a class="kk" href="http://pf.kakao.com/_dRuxeX/chat" target="_blank" rel="noopener">
+        <span class="ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.87 5.37 4.68 6.79l-.95 3.5c-.08.3.26.54.52.37l4.17-2.77c.52.07 1.05.11 1.58.11 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/></svg></span>
+        <span>카카오톡 채널<small>채팅으로 바로 문의</small></span>
+      </a>
+      <a class="ig" href="https://www.instagram.com/svcbyjun/" target="_blank" rel="noopener">
+        <span class="ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <span>인스타그램<small>@svcbyjun</small></span>
+      </a>
+    </div>
     <p>자동화할 업무나 수집이 필요한 데이터를 알려주시면 무료 샘플부터 확인해 드립니다.</p>
   </div>
 </section>
@@ -404,6 +555,24 @@
 </dialog>
 </main>
 
+<div class="cn" id="cn" role="dialog" aria-modal="true" aria-labelledby="cn-title" aria-hidden="true">
+  <div class="cn-win">
+    <div class="cn-bar">
+      <h3 id="cn-title"></h3>
+      <button type="button" class="cn-x" id="cn-close" aria-label="닫기">×</button>
+    </div>
+    <div class="cn-stage" id="cn-stage">
+      <div class="cn-track" id="cn-track"></div>
+      <button type="button" class="cn-nav cn-prev" id="cn-prev" aria-label="이전 장"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" class="cn-nav cn-next" id="cn-next" aria-label="다음 장"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="cn-foot">
+      <span class="cn-count" id="cn-count"></span>
+      <div class="cn-dots" id="cn-dots"></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="biz">
@@ -419,6 +588,102 @@
 </footer>
 
 <script>
+(function(){
+  // ▼ 카드뉴스 설정: 파일명 규칙은 이 한 곳에서만 바꾸면 됩니다.
+  //   기본값: ./assets/cardnews_{key}_1.png ~ _7.png
+  var CN_DIR = "./assets/", CN_PREFIX = "cardnews_", CN_EXT = ".png";
+  var CN = {
+    disclosure:{title:"전자공시 보고서 수집 업무 자동화", n:7},
+    document:{title:"문서 항목 표준 추출 업무 자동화", n:7},
+    sales:{title:"영업 DB 구축 자동화", n:7},
+    invest:{title:"기업 투자 정보 수집 자동화", n:7},
+    hospital:{title:"로컬 브랜드 플랫폼 모니터링 업무 자동화", n:7}
+  };
+  var root = document.getElementById("cn"), track = document.getElementById("cn-track"), stage = document.getElementById("cn-stage"),
+      prevB = document.getElementById("cn-prev"), nextB = document.getElementById("cn-next"), dotsEl = document.getElementById("cn-dots"),
+      countEl = document.getElementById("cn-count"), titleEl = document.getElementById("cn-title"),
+      cur = 0, total = 0, opener = null;
+
+  function go(i){
+    cur = Math.max(0, Math.min(total - 1, i));
+    track.style.transform = "translateX(" + (-cur * 100) + "%)";
+    countEl.textContent = (cur + 1) + " / " + total;
+    prevB.disabled = cur === 0; nextB.disabled = cur === total - 1;
+    Array.prototype.forEach.call(dotsEl.children, function(d, k){ d.classList.toggle("on", k === cur); });
+    // 다음 장 미리 불러오기
+    var nx = track.children[cur + 1]; if(nx){ var im = nx.firstChild; if(im.dataset.src){ im.src = im.dataset.src; delete im.dataset.src; } }
+    var cs = track.children[cur]; if(cs){ var ic = cs.firstChild; if(ic.dataset.src){ ic.src = ic.dataset.src; delete ic.dataset.src; } }
+  }
+  function openCN(key, trigger){
+    var d = CN[key]; if(!d) return;
+    opener = trigger; total = d.n; track.textContent = ""; dotsEl.textContent = "";
+    titleEl.textContent = d.title;
+    for(var k = 1; k <= d.n; k++){
+      var sl = document.createElement("div"), im = document.createElement("img");
+      sl.className = "cn-slide"; im.alt = d.title + " " + k + "/" + d.n + "장"; im.draggable = false;
+      im.dataset.src = CN_DIR + CN_PREFIX + key + "_" + k + CN_EXT;
+      sl.appendChild(im); track.appendChild(sl);
+      var dot = document.createElement("button"); dot.type = "button"; dot.setAttribute("aria-label", k + "장으로 이동");
+      (function(n){ dot.addEventListener("click", function(){ go(n); }); })(k - 1);
+      dotsEl.appendChild(dot);
+    }
+    track.classList.add("drag"); go(0); void track.offsetWidth; track.classList.remove("drag");
+    root.classList.add("on"); root.setAttribute("aria-hidden", "false");
+    document.body.classList.add("cn-lock");
+    document.getElementById("cn-close").focus();
+  }
+  function closeCN(){
+    root.classList.remove("on"); root.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("cn-lock");
+    if(opener) opener.focus();
+  }
+
+  document.querySelectorAll("[data-cn]").forEach(function(a){
+    a.addEventListener("click", function(e){ e.preventDefault(); openCN(a.getAttribute("data-cn"), a); });
+  });
+  document.getElementById("cn-close").addEventListener("click", closeCN);
+  root.addEventListener("click", function(e){ if(e.target === root) closeCN(); });
+  prevB.addEventListener("click", function(){ go(cur - 1); });
+  nextB.addEventListener("click", function(){ go(cur + 1); });
+  document.addEventListener("keydown", function(e){
+    if(!root.classList.contains("on")) return;
+    if(e.key === "Escape") closeCN();
+    else if(e.key === "ArrowLeft") go(cur - 1);
+    else if(e.key === "ArrowRight") go(cur + 1);
+    else if(e.key === "Tab"){
+      var f = root.querySelectorAll("button:not([disabled]), a[href]");
+      if(!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // 터치·마우스 드래그로 넘기기
+  var sx = 0, sy = 0, dx = 0, dragging = false, lock = null;
+  stage.addEventListener("pointerdown", function(e){
+    if(e.target.closest(".cn-nav")) return;
+    dragging = true; sx = e.clientX; sy = e.clientY; dx = 0; lock = null;
+  });
+  stage.addEventListener("pointermove", function(e){
+    if(!dragging) return;
+    var mx = e.clientX - sx, my = e.clientY - sy;
+    if(lock === null && (Math.abs(mx) > 6 || Math.abs(my) > 6)) lock = Math.abs(mx) > Math.abs(my) ? "x" : "y";
+    if(lock !== "x") return;
+    dx = mx;
+    if((cur === 0 && dx > 0) || (cur === total - 1 && dx < 0)) dx *= .3;
+    track.classList.add("drag");
+    track.style.transform = "translateX(calc(" + (-cur * 100) + "% + " + dx + "px))";
+  });
+  function endDrag(){
+    if(!dragging) return; dragging = false;
+    track.classList.remove("drag");
+    var w = stage.clientWidth;
+    if(lock === "x" && Math.abs(dx) > Math.min(70, w * .15)) go(cur + (dx < 0 ? 1 : -1)); else go(cur);
+  }
+  stage.addEventListener("pointerup", endDrag);
+  stage.addEventListener("pointercancel", endDrag);
+})();
 (function(){
   // ▼ Supabase 배포 후 본인 프로젝트 주소로 교체
   var API = "https://paurqjwbbcerwyibcxyd.supabase.co/functions/v1/inquiry";
